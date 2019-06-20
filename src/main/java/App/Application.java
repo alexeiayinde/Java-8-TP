@@ -3,7 +3,6 @@ package App;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import bo.User;
 import bo.User8;
@@ -16,7 +15,6 @@ public class Application {
 		for (int i = 0; i < 10000; i++)
 			executeJ7();
 		long t2 = System.currentTimeMillis();
-		System.out.println("\nLe temps d'exécution J7 (10 runs) est de : " + (t2 - t1) + " ms.\n");
 
 		System.out.println("----------APPLICATION J8----------\n");
 		long t3 = System.currentTimeMillis();
@@ -79,6 +77,7 @@ public class Application {
 
 		// Affichage de la liste des utilisateurs
 		users.stream().forEach((user) -> System.out.println(user + "\n"));
+		// users.stream().forEach(System.out::println);
 
 		// Affichage d'un message avec nom + prenom, par ancienneté
 		System.out.println("--------Liste des utilisateurs après tri selon date d'adhésion--------\n");
@@ -88,7 +87,7 @@ public class Application {
 		// Tri des utilisateurs par nom + prenom décroissant, limité aux 3 premiers
 		// utilisateurs, si le nom contient 'A', passer le nom en majuscule
 		System.out.println("--------Liste des utilisateurs après tri multiple--------\n");
-		List<User8> utilisateurs = users.stream().sorted((user1, user2) -> {
+		users.stream().sorted((user1, user2) -> {
 			int nomComp = user1.getLastName().compareTo(user2.getLastName());
 			return (nomComp != 0) ? -nomComp : -user1.getFirstName().compareTo(user2.getFirstName());
 		}).limit(3).map(user -> {
@@ -96,7 +95,7 @@ public class Application {
 				user.setLastName(user.getLastName().toUpperCase());
 			}
 			return user;
-		}).collect(Collectors.toList());
+		});
 
 		users.stream().forEach((user) -> System.out.println(user + "\n"));
 	}
